@@ -43,12 +43,13 @@ class ProcessRunner
             'idle_timeout' => null,
             'cwd' => defined('DEPLOYER_ROOT') ? DEPLOYER_ROOT : null,
             'tty' => false,
+            'echoOutput' => false,
         ];
         $config = array_merge($defaults, $config);
 
         $this->pop->command($host, $command);
 
-        $terminalOutput = $this->pop->callback($host);
+        $terminalOutput = $this->pop->callback($host, $config['echoOutput']);
         $callback = function ($type, $buffer) use ($host, $terminalOutput) {
             $this->logger->printBuffer($host, $type, $buffer);
             $terminalOutput($type, $buffer);

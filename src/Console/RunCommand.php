@@ -56,7 +56,7 @@ class RunCommand extends SelectCommand
 
         foreach ($hosts as $host) {
             try {
-                $task->run(new Context($host, $input, $output));
+                $task->run(new Context($host, $input, $output, $task));
             } catch (\Throwable $exception) {
                 $this->deployer->messenger->renderException($exception, $host);
             }

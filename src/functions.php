@@ -289,6 +289,7 @@ function run($command, $options = [])
 {
     $run = function ($command, $options) {
         $host = Context::get()->getHost();
+        $task = Context::get()->getTask();
 
         $command = parse($command);
         $workingPath = get('working_path', '');
@@ -302,6 +303,8 @@ function run($command, $options = [])
             $env = array_to_string($env);
             $command = "export $env; $command";
         }
+
+        $options['echoOutput'] = $task && $task->echoOutput();
 
         if ($host instanceof Localhost) {
             $process = Deployer::get()->processRunner;

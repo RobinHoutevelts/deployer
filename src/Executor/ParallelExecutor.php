@@ -133,7 +133,7 @@ class ParallelExecutor
                         $host->getConfig()->load();
                         Exception::setTaskSourceLocation($task->getSourceLocation());
 
-                        $task->run(new Context($host, $this->input, $this->output));
+                        $task->run(new Context($host, $this->input, $this->output, $task));
 
                         $this->messenger->endOnHost($host);
                         $host->getConfig()->save();

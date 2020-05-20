@@ -31,6 +31,11 @@ class Context
     private $output;
 
     /**
+     * @var Task
+     */
+    private $task;
+
+    /**
      * @var Context[]
      */
     private static $contexts = [];
@@ -39,12 +44,18 @@ class Context
      * @param Host $host
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @param \Deployer\Task\Task $task
      */
-    public function __construct($host, InputInterface $input = null, OutputInterface $output = null)
-    {
+    public function __construct(
+        $host,
+        InputInterface $input = null,
+        OutputInterface $output = null,
+        Task $task = null
+    ) {
         $this->host = $host;
         $this->input = $input;
         $this->output = $output;
+        $this->task = $task;
     }
 
     /**
@@ -129,5 +140,13 @@ class Context
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * @return Task
+     */
+    public function getTask()
+    {
+        return $this->task;
     }
 }

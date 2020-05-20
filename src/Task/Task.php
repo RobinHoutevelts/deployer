@@ -77,6 +77,12 @@ class Task
      */
     private $selector;
 
+    /**
+     * Show the output; is always true when verbose
+     * @var bool
+     */
+    private $showOutput = false;
+
     public function __construct($name, callable $callback = null)
     {
         $this->name = $name;
@@ -117,6 +123,17 @@ class Task
     public function desc(string $description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function echoOutput()
+    {
+        return $this->showOutput;
+    }
+
+    public function showOutput(bool $value = true)
+    {
+        $this->showOutput = $value;
         return $this;
     }
 

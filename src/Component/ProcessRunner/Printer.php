@@ -34,12 +34,13 @@ class Printer
      * Returns a callable for use with the symfony Process->run($callable) method.
      *
      * @param Host $host
+     * @param bool $echoOutput
      * @return callable A function expecting a int $type (e.g. Process::OUT or Process::ERR) and string $buffer parameters.
      */
-    public function callback(Host $host)
+    public function callback(Host $host, bool $echoOutput = false)
     {
-        return function ($type, $buffer) use ($host) {
-            if ($this->output->isVerbose()) {
+        return function ($type, $buffer) use ($host, $echoOutput) {
+            if ($echoOutput || $this->output->isVerbose()) {
                 $this->printBuffer($type, $host, $buffer);
             }
         };
