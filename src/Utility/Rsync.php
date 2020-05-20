@@ -10,6 +10,7 @@ namespace Deployer\Utility;
 use Deployer\Component\ProcessRunner\Printer;
 use Deployer\Exception\RunException;
 use Deployer\Host\Host;
+use Deployer\Host\Localhost;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -40,6 +41,9 @@ class Rsync
         $options = $config['options'] ?? [];
 
         $sshArguments = $host->getSshArguments()->getCliArguments();
+        if ($host->getPort()) {
+            $sshArguments .= ' -p ' . $host->getPort();
+        }
         if ($sshArguments !== '') {
             $options[] = "-e 'ssh $sshArguments'";
         }

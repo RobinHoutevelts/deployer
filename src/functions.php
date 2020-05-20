@@ -447,11 +447,18 @@ function upload(string $source, string $destination, $config = [])
     $source = parse($source);
     $destination = parse($destination);
 
-    if ($host instanceof Localhost) {
-        $rsync->call($host, $source, $destination, $config);
-    } else {
-        $rsync->call($host, $source, "{$host->getHostname()}:$destination", $config);
+    if (!$host instanceof Localhost) {
+        $remoteDestination = [
+            $host->getHostname() . ':',
+            $destination,
+        ];
+        if ($host->getRemoteUser()) {
+            array_unshift($remoteDestination, $host->getRemoteUser() . '@');
+        }
+        $destination = implode('', $remoteDestination);
     }
+
+    $rsync->call($host, $source, $destination, $config);
 }
 
 /*
@@ -464,11 +471,18 @@ function download(string $source, string $destination, $config = [])
     $source = parse($source);
     $destination = parse($destination);
 
-    if ($host instanceof Localhost) {
-        $rsync->call($host, $source, $destination, $config);
-    } else {
-        $rsync->call($host, "{$host->getHostname()}:$source", $destination, $config);
+    if (!$host instanceof Localhost) {
+        $remoteSource = [
+            $host->getHostname() . ':',
+            $source,
+        ];
+        if ($host->getRemoteUser()) {
+            array_unshift($remoteSource, $host->getRemoteUser() . '@');
+        }
+        $source = implode('', $remoteSource);
     }
+
+    $rsync->call($host, $source, $destination, $config);
 }
 
 /**

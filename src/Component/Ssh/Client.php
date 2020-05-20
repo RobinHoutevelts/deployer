@@ -64,7 +64,7 @@ class Client
         $this->pop->command($host, $command);
         $this->logger->log("[{$host->getAlias()}] run $command");
 
-        $terminalOutput = $this->pop->callback($host, $config['showOutput']);
+        $terminalOutput = $this->pop->callback($host, $config['echoOutput']);
         $callback = function ($type, $buffer) use ($host, $terminalOutput) {
             $this->logger->printBuffer($host, $type, $buffer);
             $terminalOutput($type, $buffer);
