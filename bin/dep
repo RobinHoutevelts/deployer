@@ -44,7 +44,11 @@ if (preg_match('/(^|\s) --? (f|file) (=|\s) (?<file>.+?) (\s|$)/x', implode(' ',
 }
 
 if (empty($deployFile)) {
-    $deployFile = getcwd() . '/deploy.php';
+    $deployFile = '/deployer/deploy.php';
+
+    if (!is_readable($deployFile)) {
+        $deployFile = getcwd() . '/deploy.php';
+    }
 
     if (!is_readable($deployFile)) {
         $currentDir = getcwd();
